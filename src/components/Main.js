@@ -3,20 +3,28 @@ require('styles/App.css');
 
 import React from 'react';
 
-let yeomanImage = require('../images/yeoman.png');
+var imageDatas = require('../data/imageDatas.json');
 
-class AppComponent extends React.Component {
-  render() {
-    return (
-      <div className="index">
-        <img src={yeomanImage} alt="Yeoman Generator" />
-        <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
-      </div>
-    );
-  }
+function genImageURL(imageDatasArr){
+	for(var i = 0,j = imageDatasArr.length;i < j; i++){
+		imageDatasArr[i].imageURL = require('../images/'+imageDatasArr[i].fileName);
+	}
+	return imageDatasArr;
 }
+imageDatas = genImageURL(imageDatas);
 
-AppComponent.defaultProps = {
-};
+var Gallery123bearByReactApp = React.createClass({
+	render: function(){
+		return (
+			<section classsName="stage">
+				<section classsName="img-sec">
+				</section>
+				<nav classsName="controller-nav">
+				</nav>
+			</section>
+		);
+	}
 
-export default AppComponent;
+});
+
+React.render(<Gallery123bearByReactApp/>,document.getElementById('content'));
