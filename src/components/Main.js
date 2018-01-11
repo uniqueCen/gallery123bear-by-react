@@ -21,6 +21,13 @@ function getRangeRandom(low, high) {
     return Math.ceil(Math.random() * (high - low) + low);
 }
 
+/*
+ * 获取0-30之间的一个任意正负值
+ */
+function get30DegRandom(){
+	return ((Math.random() > 0.5 ? '' : '-') + Math.ceil(Math.random() * 30));
+}
+
 var ImgFigure = React.createClass({
 	render: function(){
 		var styleObj = {};
@@ -28,6 +35,13 @@ var ImgFigure = React.createClass({
         // 如果props属性中指定了这张图片的位置，则使用
         if (this.props.arrange.pos) {
             styleObj = this.props.arrange.pos;
+        }
+
+        //如果图片旋转角度不为0，添加旋转角度
+        if(this.props.arrange.rotate){
+        	(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
+        		styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
+        	}.bind(this));			
         }
 
 		return (
@@ -81,7 +95,8 @@ var Gallery123bearByReactApp = React.createClass({
 
         // 首先居中 centerIndex 的图片, 居中的 centerIndex 的图片不需要旋转
         imgsArrangeCenterArr[0] = {
-          pos: centerPos
+          pos: centerPos,
+          rotate : 0
         };
 
         // 取出要布局上侧的图片的状态信息
@@ -94,7 +109,8 @@ var Gallery123bearByReactApp = React.createClass({
               pos: {
                   top: getRangeRandom(vPosRangeTopY[0], vPosRangeTopY[1]),
                   left: getRangeRandom(vPosRangeX[0], vPosRangeX[1])
-              }
+              },
+              rotate: get30DegRandom()
             };
         });
 
@@ -113,7 +129,8 @@ var Gallery123bearByReactApp = React.createClass({
               pos: {
                   top: getRangeRandom(hPosRangeY[0], hPosRangeY[1]),
                   left: getRangeRandom(hPosRangeLORX[0], hPosRangeLORX[1])
-              }
+              },
+              rotate: get30DegRandom()
             };
 
         }
@@ -136,7 +153,8 @@ var Gallery123bearByReactApp = React.createClass({
 					pos:{
 						left:'0',
 						top:'0'
-					}
+					},
+					rotate : 0 //旋转角度
 				}*/
 				
 			]
@@ -166,7 +184,8 @@ var Gallery123bearByReactApp = React.createClass({
 	        top: halfStageH - halfImgH
 	    };
 
-	    // 计算左侧，右侧区域图片排布位置的取值范围,X的范围是图片左侧边的X的范围，Y记录的是图片底边的Y的范围
+	    // 计算左侧，右侧区域图片排布位置的取值范围,X轴在舞台的左侧边处，
+	    //X的范围是图片左侧边的X的范围，Y记录的是图片顶部边的Y的范围
 	    this.Constant.hPosRange.leftSecX[0] = -halfImgW;
 	    this.Constant.hPosRange.leftSecX[1] = halfStageW - halfImgW * 3;
 	    this.Constant.hPosRange.rightSecX[0] = halfStageW + halfImgW;
@@ -174,7 +193,7 @@ var Gallery123bearByReactApp = React.createClass({
 	    this.Constant.hPosRange.y[0] = -halfImgH;
 	    this.Constant.hPosRange.y[1] = stageH - halfImgH;
 
-	    // 计算上侧区域图片排布位置的取值范围  Y的设置需要考虑清楚 
+	    // 计算上侧区域图片排布位置的取值范围  Y坐标在舞台上方，往下是Y轴的正方向 
 	    this.Constant.vPosRange.topY[0] = - halfImgH;
 	    this.Constant.vPosRange.topY[1] = halfStageH - halfImgH*3;
 	    this.Constant.vPosRange.x[0] = halfStageW - imgW;
@@ -192,8 +211,9 @@ var Gallery123bearByReactApp = React.createClass({
 					pos:{
 						left :0,
 						top:0
-					}
-				}
+					},
+					rotate : 0
+				};
 			}
 			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index} 
 				arrange={this.state.imgsArrangeArr[index]}/>);
