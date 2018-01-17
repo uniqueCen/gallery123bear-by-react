@@ -10,6 +10,11 @@ html,body {
   transform: rotate(30deg);
 }
 
+/*css实现图片翻转*/
+.test-rotateY {
+  transform: rotateY(180deg);
+}
+
 .content{
   width : 100%;
   height : 100%;
@@ -36,8 +41,10 @@ html,body {
       height: 360px;
       margin:0;
       padding:40px;
+      cursor:pointer;
       background-color: #fff;
       box-sizing: border-box;
+      transform-style: preserve-3d;
     }
     /*图片组件的标题组件*/
     figcaption{

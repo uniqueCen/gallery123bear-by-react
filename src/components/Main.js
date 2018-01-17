@@ -29,6 +29,13 @@ function get30DegRandom(){
 }
 
 var ImgFigure = React.createClass({
+	/*
+	 * 点击处理函数
+	 */
+	 imgHandleClick : function(){
+	 	this.props.inverse;
+	 },
+
 	render: function(){
 		var styleObj = {};
 
@@ -43,9 +50,9 @@ var ImgFigure = React.createClass({
         		styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
         	}.bind(this));			
         }
-
+        
 		return (
-			<figure className="img-figure" style={styleObj}>
+			<figure className='img-figure' style={styleObj} onClick={this.imgHandleClick()}>
 				<img src={this.props.data.imageURL}
 					alt={this.props.data.title}
 				/>
@@ -73,8 +80,18 @@ var Gallery123bearByReactApp = React.createClass({
 		}
 
 	},
+	/*翻转图片*/
+	inverse: function(index){
+		return function(){
+			var imgsArrangeArr = this.state.imgsArrangeArr;
+			imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
+			this.setState({
+				imgsArrangeArr: imgsArrangeArr
+			});
+		}.bind(this);
+	},
 
-	/*重新布局所有图片*/
+	/*重新布局所有图片怎么*/
 	rearrange: function(centerIndex){
     var imgsArrangeArr = this.state.imgsArrangeArr,
         Constant = this.Constant,
@@ -154,7 +171,8 @@ var Gallery123bearByReactApp = React.createClass({
 						left:'0',
 						top:'0'
 					},
-					rotate : 0 //旋转角度
+					rotate : 0 ,//旋转角度
+					isInverse: false //图片正反面
 				}*/
 				
 			]
@@ -212,11 +230,12 @@ var Gallery123bearByReactApp = React.createClass({
 						left :0,
 						top:0
 					},
-					rotate : 0
+					rotate : 0,
+					isInverse: false
 				};
 			}
 			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index} 
-				arrange={this.state.imgsArrangeArr[index]}/>);
+				arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)}/>);
 		}.bind(this));/*.bind(this)将所在的reactComponent对象传到其绑定的方法中*/
 		return (
 	        <section className="stage" ref="stage">
