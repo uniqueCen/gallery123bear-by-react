@@ -48,16 +48,24 @@ var ImgFigure = React.createClass({
         if(this.props.arrange.rotate){
         	(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
         		styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
-        	}.bind(this));			
+        	}.bind(this));
         }
         
+        var imgFigureClassName = 'img-figure';
+            imgFigureClassName += this.props.arrange.isInverse ? 'is-inverse' : '';
+            
 		return (
-			<figure className='img-figure' style={styleObj} onClick={this.imgHandleClick()}>
+			<figure className={imgFigureClassName} style={styleObj} onClick={this.imgHandleClick()}>
 				<img src={this.props.data.imageURL}
 					alt={this.props.data.title}
 				/>
 				<figcaption>
 					<h2 className="img-title">{this.props.data.title}</h2>
+					<div className="img-back" onClick={this.imgHandleClick()}>
+                      <p>
+                        {this.props.data.desc}
+                      </p>
+                    </div>
 				</figcaption>
 			</figure>
 		);
@@ -211,7 +219,7 @@ var Gallery123bearByReactApp = React.createClass({
 	    this.Constant.hPosRange.y[0] = -halfImgH;
 	    this.Constant.hPosRange.y[1] = stageH - halfImgH;
 
-	    // 计算上侧区域图片排布位置的取值范围  Y坐标在舞台上方，往下是Y轴的正方向 
+	    // 计算上侧区域图片排布位置的取值范围  Y坐标在舞台上方，往下是Y轴的正方向
 	    this.Constant.vPosRange.topY[0] = - halfImgH;
 	    this.Constant.vPosRange.topY[1] = halfStageH - halfImgH*3;
 	    this.Constant.vPosRange.x[0] = halfStageW - imgW;
@@ -234,7 +242,7 @@ var Gallery123bearByReactApp = React.createClass({
 					isInverse: false
 				};
 			}
-			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index} 
+			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index}
 				arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)}/>);
 		}.bind(this));/*.bind(this)将所在的reactComponent对象传到其绑定的方法中*/
 		return (
