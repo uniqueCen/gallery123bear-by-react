@@ -29,14 +29,15 @@ function get30DegRandom(){
 }
 
 var ImgFigure = React.createClass({
-	/*
-	 * 点击处理函数
-	 */
-	 imgHandleClick : function(){
-	 	this.props.inverse;
-	 },
+	getInitialState: function() {
+          return {isInverse: false};
+    },
+    handleClick: function(event) {
+    	this.props.inverse;
+        this.setState({isInverse: !this.state.isInverse});
+    },
 
-	render: function(){
+	render:function(){
 		var styleObj = {};
 
         // 如果props属性中指定了这张图片的位置，则使用
@@ -50,18 +51,20 @@ var ImgFigure = React.createClass({
         		styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
         	}.bind(this));
         }
-        
-        var imgFigureClassName = 'img-figure';
-            imgFigureClassName += this.props.arrange.isInverse ? 'is-inverse' : '';
-            
+
+        (['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
+	        if(this.state.isInverse){
+	        	styleObj[value] = 'rotateY(180deg)';
+	        }
+        }.bind(this));
 		return (
-			<figure className={imgFigureClassName} style={styleObj} onClick={this.imgHandleClick()}>
+			<figure className="img-figure" style={styleObj} onClick={this.handleClick}>
 				<img src={this.props.data.imageURL}
 					alt={this.props.data.title}
 				/>
 				<figcaption>
 					<h2 className="img-title">{this.props.data.title}</h2>
-					<div className="img-back" onClick={this.imgHandleClick()}>
+					<div className="img-back" onClick={this.handleClick}>
                       <p>
                         {this.props.data.desc}
                       </p>
@@ -243,7 +246,7 @@ var Gallery123bearByReactApp = React.createClass({
 				};
 			}
 			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index}
-				arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)}/>);
+				arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} />);
 		}.bind(this));/*.bind(this)将所在的reactComponent对象传到其绑定的方法中*/
 		return (
 	        <section className="stage" ref="stage">

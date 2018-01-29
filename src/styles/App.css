@@ -49,9 +49,8 @@ html,body {
       box-sizing: border-box;
 
       transform-style: preserve-3d;
-      &.is-inverse {
-                transform: rotateY(180deg);
-      }
+
+      backface-visibility: hidden;
     }
     /*图片组件的标题组件*/
     .figcaption {
@@ -78,8 +77,6 @@ html,body {
         text-align: left;
         background-color: #fff;
         box-sizing: border-box;
-        transform: rotateY(180deg) translateZ(1px);
-        backface-visibility: hidden;
         p {
           margin: 0;
         }
