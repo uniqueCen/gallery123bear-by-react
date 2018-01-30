@@ -51,15 +51,17 @@ var ImgFigure = React.createClass({
         		styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
         	}.bind(this));
         }
-
+        var imgStyleObj = {};
         (['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
 	        if(this.state.isInverse){
-	        	styleObj[value] = 'rotateY(180deg)';
+	        	imgStyleObj[value] = 'rotateY(180deg)';
+	        } else {
+	        	imgStyleObj[value] = 'rotateY(0deg)';
 	        }
         }.bind(this));
 		return (
-			<figure className="img-figure" style={styleObj} onClick={this.handleClick}>
-				<img src={this.props.data.imageURL}
+			<figure className="img-figure" style={styleObj} >
+				<img src={this.props.data.imageURL} style={imgStyleObj} onClick={this.handleClick}
 					alt={this.props.data.title}
 				/>
 				<figcaption>
