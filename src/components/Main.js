@@ -30,11 +30,18 @@ function get30DegRandom(){
 
 var ImgFigure = React.createClass({
 	getInitialState: function() {
-          return {isInverse: false};
+          return {
+          	isInverse: false,
+          	isCenter: false
+          };
     },
-    handleClick: function(event) {
-    	this.props.inverse;
-        this.setState({isInverse: !this.state.isInverse});
+    handleClick: function() {
+    	if (this.props.arrange.isCenter) {
+    		this.props.inverse;
+        	this.setState({isInverse: !this.state.isInverse});
+    	} else {
+    		this.props.center;
+    	}
     },
 
 	render:function(){
@@ -64,7 +71,7 @@ var ImgFigure = React.createClass({
 				<img src={this.props.data.imageURL} style={imgStyleObj} onClick={this.handleClick}
 					alt={this.props.data.title}
 				/>
-				<figcaption  onClick={this.handleClick}>					
+				<figcaption  onClick={this.handleClick}>			
 					<div className="img-back">
                       <p>
                         {this.props.data.description}
@@ -126,7 +133,8 @@ var Gallery123bearByReactApp = React.createClass({
         // 首先居中 centerIndex 的图片, 居中的 centerIndex 的图片不需要旋转
         imgsArrangeCenterArr[0] = {
           pos: centerPos,
-          rotate : 0
+          rotate : 0,
+          isCenter : true
         };
 
         // 取出要布局上侧的图片的状态信息
@@ -140,7 +148,8 @@ var Gallery123bearByReactApp = React.createClass({
                   top: getRangeRandom(vPosRangeTopY[0], vPosRangeTopY[1]),
                   left: getRangeRandom(vPosRangeX[0], vPosRangeX[1])
               },
-              rotate: get30DegRandom()
+              rotate: get30DegRandom(),
+              isCenter:false
             };
         });
 
@@ -160,7 +169,8 @@ var Gallery123bearByReactApp = React.createClass({
                   top: getRangeRandom(hPosRangeY[0], hPosRangeY[1]),
                   left: getRangeRandom(hPosRangeLORX[0], hPosRangeLORX[1])
               },
-              rotate: get30DegRandom()
+              rotate: get30DegRandom(),
+              isCenter:false
             };
 
         }
@@ -176,6 +186,17 @@ var Gallery123bearByReactApp = React.createClass({
         });
 	},
 
+	/*
+	   * 利用arrange函数， 居中对应index的图片
+	   * @param index, 需要被居中的图片对应的图片信息数组的index值
+	   * @returns {Function}
+	 */
+	center: function (index) {
+	    return function () {
+	      this.rearrange(index);
+	    }.bind(this);
+	},
+
 	getInitialState: function(){
 		return {
 			imgsArrangeArr: [
@@ -185,7 +206,8 @@ var Gallery123bearByReactApp = React.createClass({
 						top:'0'
 					},
 					rotate : 0 ,//旋转角度
-					isInverse: false //图片正反面
+					isInverse: false,//图片正反面
+					isCenter: false
 				}*/
 				
 			]
@@ -244,11 +266,12 @@ var Gallery123bearByReactApp = React.createClass({
 						top:0
 					},
 					rotate : 0,
+					isInverse: false,
 					isInverse: false
 				};
 			}
 			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index}
-				arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} />);
+				arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
 		}.bind(this));/*.bind(this)将所在的reactComponent对象传到其绑定的方法中*/
 		return (
 	        <section className="stage" ref="stage">
