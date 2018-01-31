@@ -64,13 +64,13 @@ var ImgFigure = React.createClass({
 				<img src={this.props.data.imageURL} style={imgStyleObj} onClick={this.handleClick}
 					alt={this.props.data.title}
 				/>
-				<figcaption>
-					<h2 className="img-title">{this.props.data.title}</h2>
-					<div className="img-back" onClick={this.handleClick}>
+				<figcaption  onClick={this.handleClick}>					
+					<div className="img-back">
                       <p>
-                        {this.props.data.desc}
+                        {this.props.data.description}
                       </p>
                     </div>
+                    <h2 className="img-title">{this.props.data.title}</h2>
 				</figcaption>
 			</figure>
 		);

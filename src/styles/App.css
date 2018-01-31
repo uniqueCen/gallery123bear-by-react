@@ -37,7 +37,6 @@ html,body {
     /*图片组件的模型*/
     .img-figure{
       position: absolute;
-
       width: 320px;
       height: 360px;
       margin:0;
@@ -49,46 +48,33 @@ html,body {
       box-sizing: border-box;
 
       transform-style: preserve-3d;
-
-      backface-visibility: hidden;
     }
-    /*图片组件的标题组件*/
-    .figcaption {
-      text-align: center;
-
-      .img-title {
-        margin: 20px 0 0 0;
-        color: #a7a0a2;
-        font-size: 16px;
-      }
-      .img-back {
-        position: absolute;
-
-        top: 0;
-        left: 0;
-
-        width: 100%;
-        height: 100%;
-        padding: 50px 40px;
-        overflow: auto;
-        color: #a7a0a2;
-        font-size: 22px;
-        line-height: 1.25;
-        text-align: left;
-        background-color: #fff;
-        box-sizing: border-box;
-        p {
-          margin: 0;
-        }
+    /*图片组件的标题组件*/    
+    .img-back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 50px 40px;
+      overflow: auto;
+      color: #a7a0a2;
+      font-size: 22px;
+      line-height: 1.25;
+      text-align: left;
+      background-color: #fff;
+      box-sizing: border-box;
+      z-index: -1;
+      p {
+        margin: 0;
       }
     }
-    /*图片组件的标题字体样式*/
-    .img-title{
-        margin:20px 0 0;
-        color:#a7a0a2;
-        font-size: 16px;
-    }
-
+.img-title {
+  margin: 20px 0 0 0;
+  color: #a7a0a2;
+  font-size: 16px;
+  text-align: center;
+}
 .controller-nav{
   position: absolute;
   left:0;
