@@ -37,10 +37,16 @@ var ImgFigure = React.createClass({
     },
     handleClick: function() {
     	if (this.props.arrange.isCenter) {
-    		this.props.inverse;
-        	this.setState({isInverse: !this.state.isInverse});
+        	this.setState({
+        		isInverse: !this.state.isInverse,
+        		isCenter: true
+        	});
     	} else {
-    		this.props.center;
+    		this.props.center();
+    		this.setState({
+        		isInverse: false,
+        		isCenter: true
+        	});
     	}
     },
 
@@ -71,7 +77,7 @@ var ImgFigure = React.createClass({
 				<img src={this.props.data.imageURL} style={imgStyleObj} onClick={this.handleClick}
 					alt={this.props.data.title}
 				/>
-				<figcaption  onClick={this.handleClick}>			
+				<figcaption  onClick={this.handleClick}>
 					<div className="img-back">
                       <p>
                         {this.props.data.description}
@@ -100,17 +106,7 @@ var Gallery123bearByReactApp = React.createClass({
 		}
 
 	},
-	/*翻转图片*/
-	inverse: function(index){
-		return function(){
-			var imgsArrangeArr = this.state.imgsArrangeArr;
-			imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
-			this.setState({
-				imgsArrangeArr: imgsArrangeArr
-			});
-		}.bind(this);
-	},
-
+  
 	/*重新布局所有图片怎么*/
 	rearrange: function(centerIndex){
     var imgsArrangeArr = this.state.imgsArrangeArr,
@@ -185,18 +181,16 @@ var Gallery123bearByReactApp = React.createClass({
             imgsArrangeArr: imgsArrangeArr
         });
 	},
-
 	/*
-	   * 利用arrange函数， 居中对应index的图片
-	   * @param index, 需要被居中的图片对应的图片信息数组的index值
-	   * @returns {Function}
-	 */
+   * 利用arrange函数， 居中对应index的图片
+   * @param index, 需要被居中的图片对应的图片信息数组的index值
+   * @returns {Function}
+   */
 	center: function (index) {
 	    return function () {
 	      this.rearrange(index);
 	    }.bind(this);
 	},
-
 	getInitialState: function(){
 		return {
 			imgsArrangeArr: [
@@ -254,6 +248,7 @@ var Gallery123bearByReactApp = React.createClass({
 
 	    this.rearrange(0);
 	},
+	
 	render: function(){
 		var controllerUnits = [],
 			 imgFigures = [];
@@ -267,12 +262,13 @@ var Gallery123bearByReactApp = React.createClass({
 					},
 					rotate : 0,
 					isInverse: false,
-					isInverse: false
+					isCenter: false
 				};
 			}
 			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index}
-				arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
-		}.bind(this));/*.bind(this)将所在的reactComponent对象传到其绑定的方法中*/
+				arrange={this.state.imgsArrangeArr[index]} center={this.center(index)} />);
+		}.bind(this));
+		/*.bind(this)将所在的reactComponent对象传到其绑定的方法中*/
 		return (
 	        <section className="stage" ref="stage">
 	            <section className="img-sec">
