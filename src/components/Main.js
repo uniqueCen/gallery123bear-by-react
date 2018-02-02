@@ -31,22 +31,16 @@ function get30DegRandom(){
 var ImgFigure = React.createClass({
 	getInitialState: function() {
           return {
-          	isInverse: false,
-          	isCenter: false
+          	isInverse: false
           };
     },
     handleClick: function() {
     	if (this.props.arrange.isCenter) {
         	this.setState({
-        		isInverse: !this.state.isInverse,
-        		isCenter: true
+        		isInverse: !this.state.isInverse
         	});
     	} else {
     		this.props.center();
-    		this.setState({
-        		isInverse: false,
-        		isCenter: true
-        	});
     	}
     },
 
