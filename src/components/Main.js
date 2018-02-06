@@ -37,8 +37,8 @@ var ImgFigure = React.createClass({
     handleClick: function() {
     	if (this.props.arrange.isCenter) {
         	this.setState({
-        		isInverse: !this.state.isInverse
-        	});
+      	 		 isInverse: !this.state.isInverse
+     	 	});
     	} else {
     		this.props.center();
     	}
@@ -58,26 +58,28 @@ var ImgFigure = React.createClass({
         		styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
         	}.bind(this));
         }
-        var imgStyleObj = {};
-        (['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
-	        if(this.state.isInverse){
-	        	imgStyleObj[value] = 'rotateY(180deg)';
-	        } else {
-	        	imgStyleObj[value] = 'rotateY(0deg)';
-	        }
-        }.bind(this));
+       var imgFigureClassName = 'img-figure';
+       if(this.state.isInverse && this.props.arrange.isCenter){
+        	(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
+        		styleObj[value] = 'translate(320px) rotateY(180deg)';
+        	}.bind(this));
+        } else if(!this.state.isInverse && this.props.arrange.isCenter){
+			(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
+        		styleObj[value] = '';
+        	}.bind(this));
+        }
 		return (
-			<figure className="img-figure" style={styleObj} >
-				<img src={this.props.data.imageURL} style={imgStyleObj} onClick={this.handleClick}
+			<figure className={imgFigureClassName} style={styleObj} onClick={this.handleClick}>
+				<img src={this.props.data.imageURL}
 					alt={this.props.data.title}
 				/>
-				<figcaption  onClick={this.handleClick}>
-					<div className="img-back">
+				<h2 className="img-title">{this.props.data.title}</h2>
+				<figcaption >
+					<div className="img-back" onClick={this.handleClick}>
                       <p>
                         {this.props.data.description}
                       </p>
                     </div>
-                    <h2 className="img-title">{this.props.data.title}</h2>
 				</figcaption>
 			</figure>
 		);
@@ -100,7 +102,22 @@ var Gallery123bearByReactApp = React.createClass({
 		}
 
 	},
-  
+  	/*
+  	 * 翻转图片
+  	 * @param index 传入当前被执行inverse操作的图片对应的图片信息数组的index值
+   	* @returns {Function} 这是一个闭包函数, 其内return一个真正待被执行的函数
+   	*/
+ 	 inverse: function (index) {
+   	 	return function () {
+      	var imgsArrangeArr = this.state.imgsArrangeArr;
+
+     	 imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
+
+      	this.setState({
+      	  imgsArrangeArr: imgsArrangeArr
+     	 });
+    	}.bind(this);
+ 	 },
 	/*重新布局所有图片怎么*/
 	rearrange: function(centerIndex){
     var imgsArrangeArr = this.state.imgsArrangeArr,
@@ -260,7 +277,7 @@ var Gallery123bearByReactApp = React.createClass({
 				};
 			}
 			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index}
-				arrange={this.state.imgsArrangeArr[index]} center={this.center(index)} />);
+				arrange={this.state.imgsArrangeArr[index]} center={this.center(index)} inverse={this.inverse(index)} />);
 		}.bind(this));
 		/*.bind(this)将所在的reactComponent对象传到其绑定的方法中*/
 		return (

@@ -1,85 +1,76 @@
-/* Base Application Styles */
-html,body {
-  width : 100%;
-  height : 100%;
-  background-color: #222;
+html, body {
+    width: 100%;
+    height: 100%;
+
+    background-color: #222;
 }
 
-/*css实现图片旋转*/
-.test-rotate {
-  transform: rotate(30deg);
+.content {
+    width: 100%;
+    height: 100%;
 }
 
-/*css实现图片翻转*/
-.test-rotateY {
-  transform: rotateY(180deg);
+/* stage -- start */
+.stage {
+    position: relative;
+
+    width: 100%;
+    height: 780px;
 }
+/* stage -- end */
 
-.content{
-  width : 100%;
-  height : 100%;
-}
+/* image -- start */
+.img-sec {
+    position: relative;
 
-.stage{
-  position: relative;
-  width : 100%;
-  height : 850px;
-}
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 
-/*图片组件*/
-.img-sec{
-  position: relative;
-  width: 100%;
-  height:100%;
-  overflow: hidden;
-  background-color: #ddd;
-}
-    /*图片组件的模型*/
-    .img-figure{
-      position: absolute;
-      width: 320px;
-      height: 360px;
-      margin:0;
-      padding:40px;
+    background-color: #ddd;
 
-      cursor:pointer;
-      background-color: #fff;
-
-      box-sizing: border-box;
-
-      transform-style: preserve-3d;
-    }
-    /*图片组件的标题组件*/    
-    .img-back {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      padding: 50px 40px;
-      overflow: auto;
-      color: #a7a0a2;
-      font-size: 22px;
-      line-height: 1.25;
-      text-align: left;
-      background-color: #fff;
-      box-sizing: border-box;
-      z-index: -1;
-      p {
-        margin: 0;
+    perspective: 1800px;
+}       
+      .img-figure {
+            position: absolute;
+            width: 320px;
+            height: 360px;
+            margin: 0;
+            padding: 40px;
+            background-color: #fff;
+            box-sizing: border-box;
+            cursor: pointer;
+            transform-origin: 0 50% 0;
+            transform-style: preserve-3d;
+            transition: transform .6s ease-in-out, left .6s ease-in-out, top .6s ease-in-out;
       }
-    }
-.img-title {
-  margin: 20px 0 0 0;
-  color: #a7a0a2;
-  font-size: 16px;
-  text-align: center;
-}
-.controller-nav{
-  position: absolute;
-  left:0;
-  bottom:30px;
-  z-index: 101;
-  width:100%;
-  text-align: center;
-}
+      .img-title {
+            text-align: center;
+            margin: 20px 0 0 0;
+            color: #a7a0a2;
+            font-size: 16px;
+      }     
+      .img-back {
+              position: absolute;
+              top: 0;
+              left: 0;
+              text-align: center;
+              width: 100%;
+              height: 100%;
+              padding: 50px 40px;
+              overflow: auto;
+
+              color: #a7a0a2;
+              font-size: 22px;
+              line-height: 1.25;
+              text-align: left;
+
+              background-color: #fff;
+
+              box-sizing: border-box;
+              transform: rotateY(180deg) translateZ(1px);
+              backface-visibility: hidden;
+      }
+      .img-back .p {
+            margin: 0;
+      }
