@@ -85,6 +85,27 @@ var ImgFigure = React.createClass({
 		);
 	}
 });
+var ControllerUnit = React.createClass({
+	handleClick: function(e){
+		this.props.center();
+		e.preventDefault();
+		e.stopPropagation();
+	},
+	render: function(){
+		var styleObj = {};
+		var className ;
+		if(this.props.arrange.isCenter){
+			(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
+        		styleObj[value] = 'scale(1)';
+        	}.bind(this));
+        	styleObj['backgroundColor'] = '#888';
+        	className="controller-unit isCenter"
+		} else {
+			className="controller-unit"
+		}
+		return (<span className={className}  style={styleObj} onClick={this.handleClick}></span>);
+	}
+});
 var Gallery123bearByReactApp = React.createClass({
 	Constant:{
 		centerPos:{
@@ -278,6 +299,7 @@ var Gallery123bearByReactApp = React.createClass({
 			}
 			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index}
 				arrange={this.state.imgsArrangeArr[index]} center={this.center(index)} inverse={this.inverse(index)} />);
+			controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgsArrangeArr[index]} center={this.center(index)} />);
 		}.bind(this));
 		/*.bind(this)将所在的reactComponent对象传到其绑定的方法中*/
 		return (
@@ -286,6 +308,7 @@ var Gallery123bearByReactApp = React.createClass({
 	            	{imgFigures}
 	            </section>
 	            <nav className="controller-nav">
+	            	{controllerUnits}
 	            </nav>
 	        </section>
 	    );
