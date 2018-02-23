@@ -1,5 +1,5 @@
 @font-face{
-  font-family: "icons-turn-arrow";
+  font-family: icons-turn-arrow;
   src:url("../fonts/icons/turn-arrow.woff") format("woff"), 
         url("../fonts/icons/turn-arrow.svg") format("svg");
 }
@@ -93,14 +93,15 @@ html, body {
   width:30px;
   height: 30px;
   text-align: center;
+  vertical-align: middle;/*令按钮按中部对齐*/
   cursor: pointer;
   background-color: #aaa;
   border-radius: 50%;
   transform: scale(.5);
 }
-.isCenter :after{
-  color: #ff984f;
-  font-family: "icons-turn-arrow";
+.isCenter::after{
+  color: #fff;
+  font-family: icons-turn-arrow;
   font-size: 80%;
   line-height: 30px;
   content: "\e600";
