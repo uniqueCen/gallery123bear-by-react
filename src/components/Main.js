@@ -29,16 +29,9 @@ function get30DegRandom(){
 }
 
 var ImgFigure = React.createClass({
-	getInitialState: function() {
-          return {
-          	isInverse: false
-          };
-    },
     handleClick: function() {
     	if (this.props.arrange.isCenter) {
-        	this.setState({
-      	 		 isInverse: !this.state.isInverse
-     	 	});
+    		this.props.inverse();
     	} else {
     		this.props.center();
     	}
@@ -58,23 +51,24 @@ var ImgFigure = React.createClass({
         		styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
         	}.bind(this));
         }
+
+        // 如果是居中的图片， z-index设为11
+        if (this.props.arrange.isCenter) {
+          styleObj.zIndex = 11;
+        }
+
        var imgFigureClassName = 'img-figure';
-       if(this.state.isInverse && this.props.arrange.isCenter){
-        	(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
-        		styleObj[value] = 'translate(320px) rotateY(180deg)';
-        	}.bind(this));
-        } else if(!this.state.isInverse && this.props.arrange.isCenter){
-			(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
-        		styleObj[value] = '';
-        	}.bind(this));
+       if(this.props.arrange.isInverse){
+        	imgFigureClassName = imgFigureClassName + ' img-is-inverse';
         }
 		return (
 			<figure className={imgFigureClassName} style={styleObj} onClick={this.handleClick}>
 				<img src={this.props.data.imageURL}
 					alt={this.props.data.title}
 				/>
-				<h2 className="img-title">{this.props.data.title}</h2>
+				
 				<figcaption >
+					<h2 className="img-title">{this.props.data.title}</h2>
 					<div className="img-back" onClick={this.handleClick}>
                       <p>
                         {this.props.data.description}
@@ -87,21 +81,22 @@ var ImgFigure = React.createClass({
 });
 var ControllerUnit = React.createClass({
 	handleClick: function(e){
-		this.props.center();
+		if (this.props.arrange.isCenter) {
+    		this.props.inverse();
+    	} else {
+    		this.props.center();
+    	}
 		e.preventDefault();
 		e.stopPropagation();
 	},
 	render: function(){
 		var styleObj = {};
-		var className ;
+		var className = 'controller-unit' ;
 		if(this.props.arrange.isCenter){
-			(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
-        		styleObj[value] = 'scale(1)';
-        	}.bind(this));
-        	styleObj['backgroundColor'] = '#888';
-        	className="controller-unit isCenter"
-		} else {
-			className="controller-unit"
+        	className = className + ' isCenter';
+        	if(this.props.arrange.isInverse){
+        		className = className + ' isInverse';
+        	}
 		}
 		return (<span className={className}  style={styleObj} onClick={this.handleClick}></span>);
 	}
@@ -299,7 +294,7 @@ var Gallery123bearByReactApp = React.createClass({
 			}
 			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index}
 				arrange={this.state.imgsArrangeArr[index]} center={this.center(index)} inverse={this.inverse(index)} />);
-			controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgsArrangeArr[index]} center={this.center(index)} />);
+			controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)} />);
 		}.bind(this));
 		/*.bind(this)将所在的reactComponent对象传到其绑定的方法中*/
 		return (
