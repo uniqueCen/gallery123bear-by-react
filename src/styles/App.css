@@ -73,7 +73,7 @@ html, body {
               background-color: #fff;
 
               box-sizing: border-box;
-              transform: rotateY(180deg) translateZ(1px);
+              transform: rotateY(180deg) translateZ(1px);/*translateZ(1px)是为了使描述信息从img-back中突出出来*/
               backface-visibility: hidden;
       }
       .img-back .p {
