@@ -101,7 +101,6 @@ html, body {
   background-color: #aaa;
   border-radius: 50%;
   transform: scale(.5);
-  /*transition：transform .6s ease-in-out,background-color .3s;*/
 }
 .isCenter::after{
   color: #fff;
