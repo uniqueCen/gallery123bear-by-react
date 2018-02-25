@@ -293,7 +293,7 @@ var Gallery123bearByReactApp = React.createClass({
 					isCenter: false
 				};
 			}
-			/*给组件添加key属性是为了帮助react标记组件，更快的进行组件变化前后的比较，提高效率*/
+			/*给组件添加key属性是为了帮助react标记组件，以更快的对比组件变化前后的不同，提高运行速率*/
 			imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index}
 				arrange={this.state.imgsArrangeArr[index]} center={this.center(index)} inverse={this.inverse(index)} />);
 			controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)} />);
