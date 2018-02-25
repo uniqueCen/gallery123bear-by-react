@@ -46,7 +46,6 @@ var ImgFigure = React.createClass({
         if (this.props.arrange.pos) {
             styleObj = this.props.arrange.pos;
         }
-        console.info('test');
         //如果图片旋转角度不为0，添加旋转角度
         if(this.props.arrange.rotate){
         	(['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value){
